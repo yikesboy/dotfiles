@@ -97,6 +97,7 @@
     shellAliases = {
       cat = "bat";
       gud = "lazygit";
+      c = "clear";
     };
 
     enableCompletion = true;
