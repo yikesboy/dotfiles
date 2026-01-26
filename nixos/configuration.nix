@@ -41,10 +41,10 @@
   services.udisks2.enable = true;
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchExternalPower = "suspend";
-    lidSwitchDocked = "ignore";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "ignore";
   };
   services.power-profiles-daemon.enable = true;
   services.udev.extraRules = ''
@@ -108,7 +108,7 @@
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
   environment.systemPackages = with pkgs; [ vim wget git curl htop ];
