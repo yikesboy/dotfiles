@@ -31,6 +31,7 @@
     # GUI Apps
     brave
     zathura
+    spotify
     libreoffice-fresh
     showtime
     kdePackages.dolphin

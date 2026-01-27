@@ -110,6 +110,7 @@
 
   hardware.graphics.enable = true;
   environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
+  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [ vim wget git curl htop ];
 
