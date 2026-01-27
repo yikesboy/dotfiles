@@ -32,10 +32,11 @@
     brave
     zathura
     spotify
-    libreoffice-fresh
     showtime
-    kdePackages.dolphin
+    thunderbird
+    libreoffice-fresh
     kdePackages.kio
+    kdePackages.dolphin
     kdePackages.kio-extras
 
     # Hyprland
