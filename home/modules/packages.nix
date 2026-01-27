@@ -27,12 +27,14 @@
     unzip
     ripgrep
     ranger
+    feh
 
     # GUI Apps
     brave
     zathura
     spotify
     showtime
+    rawtherapee
     thunderbird
     libreoffice-fresh
     kdePackages.kio
