@@ -2,12 +2,12 @@
 
 let cfg = config.my.hyprland;
 in {
-  options.my.hyprland.enable = true;
+  options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       hyprland
       ghostty
-      dolphin
+      kdePackages.dolphin
       wofi
       brave
       ranger
@@ -54,8 +54,8 @@ in {
           gaps_in = 5;
           gaps_out = 20;
           border_size = 2;
-          col.activate_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          col.inactive_border = "rgba(595959aa)";
+          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+          "col.inactive_border" = "rgba(595959aa)";
           allow_tearing = false;
           layout = "dwindle";
           resize_on_border = true;
@@ -82,10 +82,10 @@ in {
           };
         };
 
-        animation = { enabled = true; };
+        animations = { enabled = true; };
 
         dwindle = {
-          psuedotile = true;
+          pseudotile = true;
           preserve_split = true;
         };
 
@@ -107,7 +107,7 @@ in {
 
         device = [{
           name = "epic-mouse-v1";
-          sensititvity = -0.5;
+          sensitivity = -0.5;
         }];
 
         bind = [
@@ -185,5 +185,7 @@ in {
         xwayland = { force_zero_scaling = true; };
       };
     };
+
+    xdg.configFile."hypr/hyprland.conf".force = true;
   };
 }

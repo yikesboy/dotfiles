@@ -1,4 +1,4 @@
-{ ... }: {
+{ config, ... }: {
   xdg.configFile."ghostty/config" = {
     force = true;
     text = ''
