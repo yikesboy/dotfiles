@@ -40,6 +40,7 @@
     kdePackages.kio
     kdePackages.dolphin
     kdePackages.kio-extras
+    pavucontrol
 
     # Hyprland
     wofi
