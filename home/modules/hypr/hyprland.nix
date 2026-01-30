@@ -123,7 +123,8 @@ in {
           "$mainMod SHIFT, S, exec, sh -c 'hyprshot -m region --clipboard-only'"
           "$mainMod, A, exec, $menu"
 
-          "$mainMod, M, fullscreen, 2"
+          "$mainMod, M, fullscreen, 1"
+          "$mainMod SHIFT, M, fullscreen, 2"
 
           "$mainMod, h, movefocus, l"
           "$mainMod, l, movefocus, r"
