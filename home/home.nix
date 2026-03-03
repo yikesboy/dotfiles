@@ -8,6 +8,7 @@
     ./modules/hypr/hyprland.nix
     ./modules/hypr/hypridle.nix
     ./modules/hypr/hyprpaper.nix
+    ./modules/hypr/hyprlock.nix
   ];
 
   home.stateVersion = "25.11";
