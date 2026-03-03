@@ -42,7 +42,6 @@ in {
         exec-once = [
           "nm-applet &"
           "gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
-          "hyprpaper"
           "waybar"
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -100,7 +99,7 @@ in {
           kb_layout = "de";
           follow_mouse = 1;
           sensitivity = 0;
-          touchpad.natural_scroll = false;
+          touchpad.natural_scroll = true;
         };
 
         gestures = { gesture = "3, horizontal, workspace"; };
