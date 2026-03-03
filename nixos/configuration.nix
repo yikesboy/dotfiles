@@ -77,8 +77,12 @@
   users.users.lukas = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups =
-      [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+      "dialout"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [ tree fastfetch ghostty kitty vesktop ];
   };
 
@@ -98,6 +102,7 @@
       cat = "bat";
       gud = "lazygit";
       c = "clear";
+      nd = "nix develop -c zsh";
     };
 
     enableCompletion = true;
@@ -108,7 +113,15 @@
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  hardware.graphics.extraPackages = with pkgs; [ vulkan-loader ];
+
+  hardware.graphics.extraPackages32 = with pkgs; [ vulkan-loader ];
+
   environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
   nixpkgs.config.allowUnfree = true;
 
@@ -121,7 +134,7 @@
 
   fonts = {
     fontconfig.enable = true;
-    packages = with pkgs; [ nerd-fonts._0xproto ];
+    packages = with pkgs; [ nerd-fonts._0xproto font-awesome ];
   };
 
   virtualisation.docker.enable = true;
