@@ -3,18 +3,13 @@
     enable = true;
 
     settings = {
-      wallpaper = [
-        {
-          monitor = "eDP-1";
-          path = "/home/lukas/wallpapers/nixos.png";
-        }
-        {
-          monitor = "HDMI-A-1";
-          path = "/home/lukas/wallpapers/nixos.png";
-        }
-      ];
-
+      ipc = "on";
       preload = [ "/home/lukas/wallpapers/nixos.png" ];
+
+      wallpaper = [
+        "eDP-1,/home/lukas/wallpapers/nixos.png"
+        "HDMI-A-1,/home/lukas/wallpapers/nixos.png"
+      ];
     };
   };
 }
