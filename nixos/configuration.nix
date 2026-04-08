@@ -62,6 +62,8 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  # Enable Tailscale
+  services.tailscale.enable = true;
 
   # Enable sound.
   # services.pulseaudio.enable = true;
@@ -103,6 +105,7 @@
       gud = "lazygit";
       c = "clear";
       nd = "nix develop -c zsh";
+      lzd = "lazydocker";
     };
 
     enableCompletion = true;
@@ -111,6 +114,7 @@
   };
 
   services.xserver.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
 
   hardware.graphics = {
@@ -118,7 +122,12 @@
     enable32Bit = true;
   };
 
-  hardware.graphics.extraPackages = with pkgs; [ vulkan-loader ];
+  hardware.graphics.extraPackages = with pkgs; [
+    mesa.drivers
+    vulkan-loader
+    vulkan-tools
+    vulkan-validation-layers
+  ];
 
   hardware.graphics.extraPackages32 = with pkgs; [ vulkan-loader ];
 
