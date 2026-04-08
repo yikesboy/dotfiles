@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   home.packages = with pkgs; [
     # Editors
     vim
@@ -8,26 +8,39 @@
     gcc
     go
     gopls
+    delve
     lua
     stylua
+    lua-language-server
     zig
     rustc
+    rust-analyzer
     cargo
     python315
+    black
+    isort
+    ruff
     nodejs_24
+    nodePackages.typescript-language-server
     pyright
     typst
     javaPackages.compiler.temurin-bin.jre-21
+    jdt-language-server
     typescript
+    nil
+    nixfmt-classic
+    alejandra
 
     # Unix & CLI Utilities
     curl
     lazygit
+    lazydocker
     bat
     unzip
     ripgrep
     ranger
     feh
+    pkgs.unstable.codex
 
     # GUI Apps
     brave
@@ -41,6 +54,11 @@
     kdePackages.dolphin
     kdePackages.kio-extras
     pavucontrol
+    gparted
+    steam
+    jetbrains.datagrip
+    jetbrains.idea
+    vscode
 
     # Hyprland
     wofi
