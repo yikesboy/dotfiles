@@ -56,8 +56,8 @@
     pavucontrol
     gparted
     steam
-    jetbrains.datagrip
-    jetbrains.idea
+    unstable.jetbrains.datagrip
+    unstable.jetbrains.idea
     vscode
 
     # Hyprland
