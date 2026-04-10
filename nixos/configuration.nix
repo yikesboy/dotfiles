@@ -114,7 +114,7 @@
   };
 
   services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
 
   hardware.graphics = {
@@ -123,7 +123,7 @@
   };
 
   hardware.graphics.extraPackages = with pkgs; [
-    mesa.drivers
+    mesa
     vulkan-loader
     vulkan-tools
     vulkan-validation-layers
@@ -199,4 +199,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-
