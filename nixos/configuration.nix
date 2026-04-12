@@ -62,8 +62,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  # Enable Tailscale
-  services.tailscale.enable = true;
+
+  # Enable Tailscale and Tailscale SSH
+  services.tailscale = {
+    enable = true;
+    extraSetFlags = [ "--ssh=true" ];
+  };
 
   # Enable sound.
   # services.pulseaudio.enable = true;
