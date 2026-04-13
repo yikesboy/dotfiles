@@ -19,6 +19,10 @@
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
 
+  # Let NetworkManager and Tailscale integrate through systemd-resolved
+  # instead of having tailscaled own /etc/resolv.conf via openresolv. (resolve suspend breakage)
+  services.resolved.enable = true;
+
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 9000 37677 ];
 
