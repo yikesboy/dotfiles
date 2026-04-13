@@ -41,6 +41,7 @@
     ranger
     feh
     pkgs.unstable.codex
+    btop
 
     # GUI Apps
     brave
@@ -51,7 +52,7 @@
     thunderbird
     libreoffice-fresh
     kdePackages.kio
-    kdePackages.dolphin
+    nautilus
     kdePackages.kio-extras
     pavucontrol
     gparted
