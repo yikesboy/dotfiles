@@ -7,7 +7,6 @@ in {
     home.packages = with pkgs; [
       hyprland
       ghostty
-      kdePackages.dolphin
       wofi
       brave
       ranger
@@ -27,11 +26,14 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
+      extraConfig = ''
+        source = ~/.config/hypr/monitors.conf
+      '';
 
       settings = {
         "$mainMod" = "SUPER";
         "$terminal" = "ghostty";
-        "$fileManager" = "dolphin";
+        "$fileManager" = "nautilus";
         "$menu" = "wofi --show drun";
         "$webbrowser" = "brave";
 
