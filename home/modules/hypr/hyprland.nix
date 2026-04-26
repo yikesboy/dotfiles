@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let cfg = config.my.hyprland;
 in {
   options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
@@ -26,9 +25,6 @@ in {
 
     wayland.windowManager.hyprland = {
       enable = true;
-      extraConfig = ''
-        source = ~/.config/hypr/monitors.conf
-      '';
 
       settings = {
         "$mainMod" = "SUPER";
@@ -36,8 +32,6 @@ in {
         "$fileManager" = "nautilus";
         "$menu" = "wofi --show drun";
         "$webbrowser" = "brave";
-
-        monitor = [ ",preferred,auto,2" ];
 
         env = [ "XCURSOR_SIZE,16" "HYPRCURSOR,16" ];
 
@@ -114,7 +108,6 @@ in {
         bind = [
           "$mainMod SHIFT, E, exit"
           "$mainMod, ESCAPE, exec, hyprlock"
-          "SUPER, P, exec, nwg-displays"
 
           "$mainMod, T, exec, $terminal"
           "$mainMod, Q, killactive"
