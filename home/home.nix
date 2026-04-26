@@ -9,6 +9,7 @@
     ./modules/hypr/hypridle.nix
     ./modules/hypr/hyprpaper.nix
     ./modules/hypr/hyprlock.nix
+    ./modules/hypr/monitors.nix
   ];
 
   home.stateVersion = "25.11";
