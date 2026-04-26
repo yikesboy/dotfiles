@@ -14,6 +14,7 @@
     lua-language-server
     zig
     rustc
+    rustfmt
     rust-analyzer
     cargo
     python315
@@ -42,6 +43,7 @@
     feh
     pkgs.unstable.codex
     btop
+    tmux
 
     # GUI Apps
     brave
@@ -59,7 +61,9 @@
     steam
     unstable.jetbrains.datagrip
     unstable.jetbrains.idea
+    unstable.jetbrains.rust-rover
     vscode
+    obs-studio
 
     # Hyprland
     wofi
