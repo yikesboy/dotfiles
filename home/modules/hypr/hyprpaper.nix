@@ -9,6 +9,7 @@
       wallpaper = [
         "eDP-1,/home/lukas/wallpapers/nixos.png"
         "HDMI-A-1,/home/lukas/wallpapers/nixos.png"
+        "DP-2,/home/lukas/wallpapers/nixos.png"
       ];
     };
   };
