@@ -44,6 +44,7 @@
     pkgs.unstable.codex
     btop
     tmux
+    file-roller
 
     # GUI Apps
     brave
@@ -64,6 +65,7 @@
     unstable.jetbrains.rust-rover
     vscode
     obs-studio
+    vlc
 
     # Hyprland
     wofi
