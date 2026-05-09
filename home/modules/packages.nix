@@ -51,6 +51,7 @@
     zathura
     spotify
     showtime
+    gnomeExtensions.dash-to-dock
     rawtherapee
     thunderbird
     libreoffice-fresh
@@ -66,6 +67,7 @@
     vscode
     obs-studio
     vlc
+    zed-editor-fhs
 
     # Hyprland
     wofi
