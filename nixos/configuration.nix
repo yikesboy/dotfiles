@@ -45,7 +45,8 @@
     useXkbConfig = false; # use xkb.options in tty.
   };
 
-  boot.initrd.postDeviceCommands = "loadkeys de";
+  boot.initrd.systemd.enable = true;
+  console.earlySetup = true;
 
   services.udisks2.enable = true;
   security.polkit.enable = true;
