@@ -32,7 +32,7 @@ in
     isort
     ruff
     nodejs_24
-    nodePackages.typescript-language-server
+    #typescript-language-server
     pyright
     typst
     javaPackages.compiler.temurin-bin.jre-21
