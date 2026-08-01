@@ -39,7 +39,7 @@ in
     jdt-language-server
     typescript
     nil
-    nixfmt-classic
+    nixfmt
     alejandra
 
     # Unix & CLI Utilities
