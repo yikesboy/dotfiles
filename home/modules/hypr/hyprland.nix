@@ -1,6 +1,13 @@
-{ config, lib, pkgs, ... }:
-let cfg = config.my.hyprland;
-in {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.my.hyprland;
+in
+{
   options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -8,7 +15,7 @@ in {
       ghostty
       wofi
       brave
-      ranger
+      yazi
       hyprpaper
       hyprlock
       hyprshot
@@ -28,17 +35,22 @@ in {
 
       settings = {
         "$mainMod" = "SUPER";
-        "$terminal" = "ghostty";
-        "$fileManager" = "nautilus";
+        "$terminal" = lib.getExe pkgs.ghostty;
+        "$fileManager" = lib.getExe pkgs.nautilus;
         "$menu" = "wofi --show drun";
-        "$webbrowser" = "brave";
+        "$webbrowser" = lib.getExe pkgs.brave;
+        "$ipc" = "noctalia-shell ipc call";
 
-        env = [ "XCURSOR_SIZE,16" "HYPRCURSOR,16" ];
+        env = [
+          "XCURSOR_SIZE,16"
+          "HYPRCURSOR,16"
+        ];
 
         exec-once = [
           "nm-applet &"
           "gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
-          "waybar"
+          # "waybar"
+          "noctalia-shell"
           "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
           "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
           "xdg-desktop-portal-hyprland"
@@ -46,10 +58,10 @@ in {
         ];
 
         general = {
-          gaps_in = 5;
-          gaps_out = 20;
+          gaps_in = 0;
+          gaps_out = 2;
           border_size = 2;
-          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+          "col.active_border" = "rgba(ffffffff)";
           "col.inactive_border" = "rgba(595959aa)";
           allow_tearing = false;
           layout = "dwindle";
@@ -57,7 +69,7 @@ in {
         };
 
         decoration = {
-          rounding = 10;
+          rounding = 20;
           rounding_power = 2;
           active_opacity = 1.0;
           inactive_opacity = 1.0;
@@ -72,19 +84,23 @@ in {
           blur = {
             enabled = true;
             size = 3;
-            passes = 1;
+            passes = 2;
             vibrancy = 0.1696;
           };
         };
 
-        animations = { enabled = true; };
+        animations = {
+          enabled = true;
+        };
 
         dwindle = {
           pseudotile = true;
           preserve_split = true;
         };
 
-        master = { new_status = "master"; };
+        master = {
+          new_status = "master";
+        };
 
         misc = {
           force_default_wallpaper = 0;
@@ -98,24 +114,28 @@ in {
           touchpad.natural_scroll = true;
         };
 
-        gestures = { gesture = "3, horizontal, workspace"; };
+        gestures = {
+          gesture = "3, horizontal, workspace";
+        };
 
-        device = [{
-          name = "epic-mouse-v1";
-          sensitivity = -0.5;
-        }];
+        device = [
+          {
+            name = "epic-mouse-v1";
+            sensitivity = -0.5;
+          }
+        ];
 
         bind = [
           "$mainMod SHIFT, E, exit"
-          "$mainMod, ESCAPE, exec, hyprlock"
+          "$mainMod, ESCAPE, exec, $ipc lockScreen lock"
 
           "$mainMod, T, exec, $terminal"
           "$mainMod, Q, killactive"
           "$mainMod, F, exec, $webbrowser"
-          "$mainMod, R, exec, $terminal -e ranger"
+          "$mainMod, E, exec, $terminal -e yazi"
           "$mainMod, Y, togglefloating"
           "$mainMod SHIFT, S, exec, sh -c 'hyprshot -m region --clipboard-only'"
-          "$mainMod, A, exec, $menu"
+          "$mainMod, SPACE, exec, $ipc launcher toggle"
 
           "$mainMod, M, fullscreen, 1"
           "$mainMod SHIFT, M, fullscreen, 2"
@@ -124,6 +144,11 @@ in {
           "$mainMod, l, movefocus, r"
           "$mainMod, k, movefocus, u"
           "$mainMod, j, movefocus, d"
+
+          "$mainMod SHIFT, h, movewindow, l"
+          "$mainMod SHIFT, l, movewindow, r"
+          "$mainMod SHIFT, k, movewindow, u"
+          "$mainMod SHIFT, j, movewindow, d"
 
           "$mainMod, 1, workspace, 1"
           "$mainMod, 2, workspace, 2"
@@ -177,7 +202,9 @@ in {
           "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
         ];
 
-        xwayland = { force_zero_scaling = true; };
+        xwayland = {
+          force_zero_scaling = true;
+        };
       };
     };
 

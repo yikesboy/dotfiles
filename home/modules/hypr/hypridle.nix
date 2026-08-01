@@ -7,9 +7,11 @@ in {
       enable = true;
 
       settings = {
+        "$ipc" = "noctalia-shell ipc call";
+
         general = {
-          lock_cmd = "pidof hyprlock || hyprlock";
-          before_sleep_cmd = "loginctl lock-session";
+          lock_cmd = "$ipc lockScreen lock";
+          before_sleep_cmd = "$ipc lockScreen lock";
           after_sleep_cmd = "hyprctl dispatch dpms on";
         };
 
@@ -31,7 +33,7 @@ in {
           # lockscreen
           {
             timeout = 300;
-            on-timeout = "loginctl lock-session";
+            on-timeout = "$ipc lockScreen lock";
           }
 
           # screen off after lockscreen

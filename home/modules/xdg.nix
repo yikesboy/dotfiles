@@ -36,8 +36,10 @@ let
 
     ${apps.mail} = [ "x-scheme-handler/mailto" ];
 
-    ${apps.fileManager} =
-      [ "inode/directory" "application/x-gnome-saved-search" ];
+    ${apps.fileManager} = [
+      "inode/directory"
+      "application/x-gnome-saved-search"
+    ];
 
     ${apps.editor} = [
       "text/plain"
@@ -54,8 +56,11 @@ let
       "application/xml"
     ];
 
-    ${apps.documentViewer} =
-      [ "application/pdf" "application/postscript" "application/epub+zip" ];
+    ${apps.documentViewer} = [
+      "application/pdf"
+      "application/postscript"
+      "application/epub+zip"
+    ];
 
     ${apps.officeWriter} = [
       "application/vnd.oasis.opendocument.text"
@@ -84,7 +89,10 @@ let
       "image/bmp"
     ];
 
-    ${apps.rawImageViewer} = [ "image/tiff" "image/x-sony-arw" ];
+    ${apps.rawImageViewer} = [
+      "image/tiff"
+      "image/x-sony-arw"
+    ];
 
     ${apps.videoPlayer} = [
       "video/mp4"
@@ -115,10 +123,11 @@ let
     ];
   };
 
-  mkDefaultApplications = lib.concatMapAttrs
-    (desktopFile: mimeTypes: lib.genAttrs mimeTypes (_: [ desktopFile ]))
-    associations;
-in {
+  mkDefaultApplications = lib.concatMapAttrs (
+    desktopFile: mimeTypes: lib.genAttrs mimeTypes (_: [ desktopFile ])
+  ) associations;
+in
+{
   xdg = {
     enable = true;
 
@@ -134,6 +143,8 @@ in {
         force = true;
         text = ''
           theme = Catppuccin Mocha
+          background-opacity = 0.8
+          background-blur = true
         '';
       };
     };
@@ -141,4 +152,3 @@ in {
     dataFile."applications/mimeapps.list".force = true;
   };
 }
-

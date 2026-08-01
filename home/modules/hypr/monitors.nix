@@ -18,15 +18,14 @@ in {
       fi
     '';
 
-    wayland.windowManager.hyprland.settings = {
-      monitor = [
-        "eDP-1,preferred,0x0,2"
-        ",preferred,auto,2,mirror,eDP-1"
-      ];
+    wayland.windowManager.hyprland = {
+      settings.bind = [ "SUPER, P, exec, nwg-displays" ];
 
-      source = [ "~/.config/hypr/monitors-override.conf" ];
-
-      bind = [ "SUPER, P, exec, nwg-displays" ];
+      extraConfig = ''
+        monitor = eDP-1,preferred,0x0,2
+        monitor = ,preferred,auto,2,mirror,eDP-1
+        source = ~/.config/hypr/monitors-override.conf
+      '';
     };
   };
 }

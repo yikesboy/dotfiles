@@ -6,11 +6,22 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nvim.url = "github:yikesboy/nvim";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager }:
-    let system = "x86_64-linux";
-    in {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nvim,
+    }:
+    let
+      system = "x86_64-linux";
+    in
+    {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit nixpkgs-unstable; };
@@ -31,7 +42,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit nixpkgs-unstable; };
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.extraSpecialArgs = {
+              inherit nixpkgs-unstable nvim;
+            };
             home-manager.users.lukas = import ./home/home.nix;
           }
         ];

@@ -16,8 +16,12 @@
       identitiesOnly = true;
       identityFile = "~/.ssh/id_ed25519";
     };
+
+    matchBlocks."astra" = {
+      host = "astra";
+      user = "lukas";
+    };
   };
 
   services.ssh-agent.enable = true;
 }
-

@@ -1,9 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [ ./hardware-configuration.nix ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -18,14 +26,11 @@
 
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
-
   # Let NetworkManager and Tailscale integrate through systemd-resolved
   # instead of having tailscaled own /etc/resolv.conf via openresolv. (resolve suspend breakage)
   services.resolved.enable = true;
 
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 9000 37677 ];
-
   time.timeZone = "Europe/Vienna";
 
   # Configure network proxy if necessary
@@ -65,7 +70,17 @@
   '';
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ hplip ];
+  };
+
+  # Discover network printers advertised through IPP/DNS-SD.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   # Enable Tailscale and Tailscale SSH
   services.tailscale = {
@@ -92,8 +107,16 @@
       "networkmanager"
       "docker"
       "dialout"
+      "lp"
+      "scanner"
     ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [ tree fastfetch ghostty kitty vesktop ];
+    packages = with pkgs; [
+      tree
+      fastfetch
+      ghostty
+      kitty
+      vesktop
+    ];
   };
 
   programs.firefox.enable = true;
@@ -105,7 +128,11 @@
     ohMyZsh = {
       enable = true;
       theme = "robbyrussell";
-      plugins = [ "git" "sudo" "docker" ];
+      plugins = [
+        "git"
+        "sudo"
+        "docker"
+      ];
     };
 
     shellAliases = {
@@ -139,10 +166,18 @@
 
   hardware.graphics.extraPackages32 = with pkgs; [ vulkan-loader ];
 
-  environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [ vim wget git curl htop ];
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    git
+    curl
+    htop
+  ];
 
   environment.variables = {
     EDITOR = "nvim";
@@ -151,10 +186,18 @@
 
   fonts = {
     fontconfig.enable = true;
-    packages = with pkgs; [ nerd-fonts._0xproto font-awesome ];
+    packages = with pkgs; [
+      nerd-fonts._0xproto
+      font-awesome
+    ];
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false;
+    package = pkgs.unstable.docker;
+  };
+  systemd.sockets.docker.wantedBy = lib.mkForce [ ];
 
   hardware.bluetooth = {
     enable = true;

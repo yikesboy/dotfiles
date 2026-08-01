@@ -1,8 +1,18 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  nvim,
+  ...
+}:
+let
+  nixvim = nvim.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+in
+{
   home.packages = with pkgs; [
     # Editors
     vim
-    neovim
+    #neovim
+    nixvim # custom neovim package yikesboy/nvim
 
     # Languages, Compilers and Toolchains
     gcc
@@ -40,6 +50,7 @@
     unzip
     ripgrep
     ranger
+    yazi
     feh
     pkgs.unstable.codex
     btop
@@ -82,5 +93,6 @@
     upower
     bibata-cursors
     networkmanagerapplet
+    unstable.noctalia-shell
   ];
 }

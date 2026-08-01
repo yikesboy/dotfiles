@@ -1,10 +1,9 @@
 { pkgs, ... }:
 let
-  terminalBinding =
-    "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/";
-  browserBinding =
-    "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser/";
-in {
+  terminalBinding = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal/";
+  browserBinding = "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser/";
+in
+{
   home.pointerCursor = {
     name = "Bibata-Modern-Classic";
     package = pkgs.bibata-cursors;
@@ -78,25 +77,29 @@ in {
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ terminalBinding browserBinding ];
+      custom-keybindings = [
+        terminalBinding
+        browserBinding
+      ];
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" =
-      {
-        name = "Launch Ghostty";
-        command = "ghostty";
-        binding = "<Super>t";
-      };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/terminal" = {
+      name = "Launch Ghostty";
+      command = "ghostty";
+      binding = "<Super>t";
+    };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser" =
-      {
-        name = "Launch Brave";
-        command = "brave";
-        binding = "<Super>f";
-      };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser" = {
+      name = "Launch Brave";
+      command = "brave";
+      binding = "<Super>f";
+    };
 
     "org/gnome/desktop/wm/keybindings" = {
-      close = [ "<Super>q" "<Alt>F4" ];
+      close = [
+        "<Super>q"
+        "<Alt>F4"
+      ];
     };
   };
 }

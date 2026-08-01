@@ -1,20 +1,24 @@
 { config, lib, ... }:
-let cfg = config.my.hyprland;
-in {
+let
+  cfg = config.my.hyprland;
+in
+{
   config = lib.mkIf cfg.enable {
     programs.hyprlock = {
       enable = true;
 
       settings = {
-        background = [{
-          monitor = "";
-          path = "/home/lukas/Wallpapers/wanderer.jpg";
-          blur_passes = 2;
-          contrast = 1;
-          brightness = 0.5;
-          vibrancy = 0.2;
-          vibrancy_darkness = 0.2;
-        }];
+        background = [
+          {
+            monitor = "";
+            path = "/home/lukas/wallpapers/nous-2.jpg";
+            blur_passes = 2;
+            contrast = 1;
+            brightness = 0.5;
+            vibrancy = 0.2;
+            vibrancy_darkness = 0.2;
+          }
+        ];
 
         general = {
           no_fade_in = true;
@@ -25,32 +29,33 @@ in {
           ignore_empty_input = true;
         };
 
-        input-field = [{
-          monitor = "";
-          size = "250, 60";
-          outline_thickness = 2;
+        input-field = [
+          {
+            monitor = "";
+            size = "250, 60";
+            outline_thickness = 2;
 
-          dots_size = 0.2;
-          dots_spacing = 0.35;
-          dots_center = true;
+            dots_size = 0.2;
+            dots_spacing = 0.35;
+            dots_center = true;
 
-          outer_color = "rgba(0, 0, 0, 0)";
-          inner_color = "rgba(0, 0, 0, 0.2)";
-          font_color = "rgba(242, 243, 244, 0.75)";
+            outer_color = "rgba(0, 0, 0, 0)";
+            inner_color = "rgba(0, 0, 0, 0.2)";
+            font_color = "rgba(242, 243, 244, 0.75)";
 
-          fade_on_empty = false;
-          rounding = 20;
+            fade_on_empty = false;
+            rounding = 20;
 
-          check_color = "rgb(204, 136, 34)";
+            check_color = "rgb(204, 136, 34)";
 
-          placeholder_text =
-            ''<i><span foreground="##cdd6f4"> Password </span></i>'';
+            placeholder_text = ''<i><span foreground="##cdd6f4"> Password </span></i>'';
 
-          hide_input = false;
-          position = "0, -200";
-          halign = "center";
-          valign = "center";
-        }];
+            hide_input = false;
+            position = "0, -200";
+            halign = "center";
+            valign = "center";
+          }
+        ];
 
         label = [
           {
