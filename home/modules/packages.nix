@@ -83,16 +83,22 @@ in
     # Hyprland
     wofi
     waybar
-    hypridle
-    hyprlock
-    hyprshot
-    hyprpaper
+    #hypridle
+    #hyprlock
+    #hyprshot
+    #hyprpaper
     nwg-displays
     brightnessctl
-    xdg-desktop-portal-hyprland
+    #xdg-desktop-portal-hyprland
     upower
     bibata-cursors
     networkmanagerapplet
     unstable.noctalia-shell
+
+    # user packages - do not forget:
+    tree
+    fastfetch
+    ghostty
+    vesktop
   ];
 }

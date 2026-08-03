@@ -1,16 +1,13 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
+  imports = [
+    ./hardware-configuration.nix
+    ./common.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -22,16 +19,10 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos";
+  networking.hostName = "luna";
 
-  networking.networkmanager.enable = true;
-  programs.nm-applet.enable = true;
   # Let NetworkManager and Tailscale integrate through systemd-resolved
   # instead of having tailscaled own /etc/resolv.conf via openresolv. (resolve suspend breakage)
-  services.resolved.enable = true;
-
-  networking.firewall.enable = true;
-  time.timeZone = "Europe/Vienna";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -39,18 +30,10 @@
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "de";
-    useXkbConfig = false; # use xkb.options in tty.
-  };
 
   boot.initrd.systemd.enable = true;
   console.earlySetup = true;
 
-  services.udisks2.enable = true;
-  security.polkit.enable = true;
-  services.gnome.gnome-keyring.enable = true;
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "suspend";
@@ -70,88 +53,9 @@
     Defaults env_keep += "EDITOR VISUAL"
   '';
 
-  # Enable CUPS to print documents.
-  services.printing = {
-    enable = true;
-    drivers = with pkgs; [ hplip ];
-  };
+  #programs.hyprland.enable = true;
 
-  # Discover network printers advertised through IPP/DNS-SD.
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-
-  # Enable Tailscale and Tailscale SSH
-  services.tailscale = {
-    enable = true;
-    extraSetFlags = [ "--ssh=true" ];
-  };
-
-  # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
-  users.users.lukas = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "docker"
-      "dialout"
-      "lp"
-      "scanner"
-    ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      tree
-      fastfetch
-      ghostty
-      kitty
-      vesktop
-    ];
-  };
-
-  programs.firefox.enable = true;
-  programs.hyprland.enable = true;
-
-  programs.zsh = {
-    enable = true;
-
-    ohMyZsh = {
-      enable = true;
-      theme = "robbyrussell";
-      plugins = [
-        "git"
-        "sudo"
-        "docker"
-      ];
-    };
-
-    shellAliases = {
-      cat = "bat";
-      gud = "lazygit";
-      c = "clear";
-      nd = "nix develop -c zsh";
-      lzd = "lazydocker";
-    };
-
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-  };
-
-  services.xserver.enable = true;
-  services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
+  #services.xserver.enable = true;
 
   hardware.graphics = {
     enable = true;
@@ -166,32 +70,6 @@
   ];
 
   hardware.graphics.extraPackages32 = with pkgs; [ vulkan-loader ];
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
-  nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    git
-    curl
-    htop
-  ];
-
-  environment.variables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
-  };
-
-  fonts = {
-    fontconfig.enable = true;
-    packages = with pkgs; [
-      nerd-fonts._0xproto
-      font-awesome
-    ];
-  };
 
   virtualisation.docker = {
     enable = true;
