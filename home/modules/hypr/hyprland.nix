@@ -11,7 +11,6 @@ in
   options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      hyprland
       ghostty
       wofi
       brave
@@ -22,9 +21,6 @@ in
       nwg-displays
       waybar
       networkmanagerapplet
-      gnome-keyring
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
       brightnessctl
       playerctl
       wireplumber
@@ -32,6 +28,17 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
+      package = null;
+      portalPackage = null;
+
+      systemd = {
+        enable = true;
+        extraCommands = [
+          "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
+          "systemctl --user stop hyprland-session.target"
+          "systemctl --user start hyprland-session.target"
+        ];
+      };
 
       settings = {
         "$mainMod" = "SUPER";
@@ -48,13 +55,8 @@ in
 
         exec-once = [
           "nm-applet &"
-          "gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
-          # "waybar"
           "noctalia-shell"
-          "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "xdg-desktop-portal-hyprland"
-          "xdg-desktop-portal-gtk"
+          # "waybar"
         ];
 
         general = {
@@ -94,7 +96,6 @@ in
         };
 
         dwindle = {
-          pseudotile = true;
           preserve_split = true;
         };
 
@@ -104,7 +105,7 @@ in
 
         misc = {
           force_default_wallpaper = 0;
-          new_window_takes_over_fullscreen = 2;
+          on_focus_under_fullscreen = 2;
         };
 
         input = {
@@ -197,9 +198,10 @@ in
           ", XF86AudioPrev, exec, playerctl previous"
         ];
 
-        windowrulev2 = [
-          "suppressevent maximize, class:.*"
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        windowrule = [
+          "match:class .*, suppress_event maximize"
+
+          "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false, no_focus true"
         ];
 
         xwayland = {
