@@ -98,7 +98,6 @@ in
     # user packages - do not forget:
     tree
     fastfetch
-    ghostty
     vesktop
   ];
 }

@@ -1,10 +1,10 @@
 { ... }: {
   imports = [
     ./modules/packages.nix
+    ./modules/programs
+    ./modules/shell.nix
     #./modules/desktop.nix
     ./modules/xdg.nix
-    ./modules/programs/git.nix
-    ./modules/programs/ssh.nix
     ./modules/sway.nix
     ./modules/hypr/hyprland.nix
     ./modules/hypr/hypridle.nix
