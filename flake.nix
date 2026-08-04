@@ -22,11 +22,11 @@
       system = "x86_64-linux";
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.luna = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit nixpkgs-unstable; };
         modules = [
-          ./nixos/configuration.nix
+          ./hosts/luna
 
           home-manager.nixosModules.home-manager
           {
@@ -46,7 +46,7 @@
             home-manager.extraSpecialArgs = {
               inherit nixpkgs-unstable nvim;
             };
-            home-manager.users.lukas = import ./home/home.nix;
+            home-manager.users.lukas = import ./modules/home/home.nix;
           }
         ];
       };
