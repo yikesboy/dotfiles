@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  # Only run on main for pushes; PRs are covered by pull_request below,
+  # so a PR push no longer triggers two runs.
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref so only the latest push is tested.
+# Never cancel on main, so a quick second commit can't kill the first one's build.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # lint: fast static checks on the Nix code. Runs first so style problems
+  # fail the pipeline before we spend time on the expensive build.
+  # ---------------------------------------------------------------------------
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: cachix/install-nix-action@d9186cbdca7adedf113a159fa91f725a27866771 # v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # The checks below are independent, so each one runs even if an earlier
+      # one failed. You get every problem in a single run.
+
+      # Formatting: fails if any tracked .nix file isn't nixfmt-clean.
+      - name: nixfmt
+        if: ${{ !cancelled() }}
+        run: |
+          git ls-files -z '*.nix' | xargs -0 \
+            nix shell .#nixosConfigurations.luna.pkgs.nixfmt -c nixfmt --check
+
+      # Anti-patterns: flags legacy or discouraged Nix idioms.
+      - name: statix
+        if: ${{ !cancelled() }}
+        run: nix shell .#nixosConfigurations.luna.pkgs.statix -c statix check .
+
+      # Dead code: fails on unused bindings and function arguments.
+      - name: deadnix
+        if: ${{ !cancelled() }}
+        run: nix shell .#nixosConfigurations.luna.pkgs.deadnix -c deadnix --fail .
+
+      # Evaluation: makes sure every flake output evaluates, without building.
+      - name: flake check
+        if: ${{ !cancelled() }}
+        run: nix flake check --all-systems --no-build --show-trace
+
+  # ---------------------------------------------------------------------------
+  # secrets: scans the full git history for leaked credentials. Needs the
+  # complete history (fetch-depth: 0), since a secret removed in a later
+  # commit is still exposed.
+  # ---------------------------------------------------------------------------
+  secrets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # PR comments and artifact uploads are off so findings never get
+      # copied somewhere more visible than the job log.
+      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: "false"
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "false"
+
+  # ---------------------------------------------------------------------------
+  # build: builds the full luna system closure. Gated on lint and secrets so
+  # we only burn runner time on commits that already passed the cheap checks.
+  # ---------------------------------------------------------------------------
+  build:
+    needs: [lint, secrets]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: cachix/install-nix-action@d9186cbdca7adedf113a159fa91f725a27866771 # v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # --no-link: we only care that it builds, not about the result symlink.
+      - name: Build luna
+        run: |
+          nix build .#nixosConfigurations.luna.config.system.build.toplevel \
+            --no-link --print-build-logs
