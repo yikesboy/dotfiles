@@ -6,6 +6,7 @@
     ./sway
     ./hyprland
     ./kwallet.nix
+    ./portals.nix
     ./plasma.nix
   ];
 }
