@@ -99,5 +99,8 @@ in
     tree
     fastfetch
     vesktop
+    pkgs.unstable.opencode
+    pkgs.unstable.pi-coding-agent
+    pkgs.unstable.zellij
   ];
 }
