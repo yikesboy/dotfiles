@@ -1,25 +1,27 @@
-{ pkgs, ... }: {
+{ ... }: {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
 
-    matchBlocks."*" = {
-      addKeysToAgent = "yes";
-      serverAliveInterval = 60;
-      serverAliveCountMax = 3;
-      hashKnownHosts = true;
-    };
+    settings = {
+      "*" = {
+        AddKeysToAgent = "yes";
+        ServerAliveInterval = 60;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = true;
+      };
 
-    matchBlocks."github.com" = {
-      host = "github.com";
-      user = "git";
-      identitiesOnly = true;
-      identityFile = "~/.ssh/id_ed25519";
-    };
+      "github.com" = {
+        Host = "github.com";
+        User = "git";
+        IdentitiesOnly = true;
+        IdentityFile = "~/.ssh/id_ed25519";
+      };
 
-    matchBlocks."astra" = {
-      host = "astra";
-      user = "lukas";
+      "astra" = {
+        Host = "astra";
+        User = "lukas";
+      };
     };
   };
 
