@@ -156,6 +156,22 @@ in
     events.before-sleep = lib.getExe pkgs.hyprlock;
   };
 
+  # keep the session awake during sustained audio playback
+  systemd.user.services.wayland-pipewire-idle-inhibit = {
+    Unit = {
+      Description = "Inhibit idle during PipeWire audio playback";
+      PartOf = [ "sway-session.target" ];
+      After = [ "sway-session.target" ];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    Service = {
+      ExecStart = lib.getExe pkgs.wayland-pipewire-idle-inhibit;
+      Restart = "on-failure";
+      RestartSec = "2s";
+    };
+    Install.WantedBy = [ "sway-session.target" ];
+  };
+
   wayland.windowManager.sway = {
     enable = true;
     package = null;
