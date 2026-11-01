@@ -135,6 +135,27 @@ in
     };
   };
 
+  services.swayidle = {
+    enable = true;
+    systemdTargets = [ "sway-session.target" ];
+    timeouts = [
+      {
+        timeout = 300;
+        command = lib.getExe pkgs.hyprlock;
+      }
+      {
+        timeout = 600;
+        command = ''${pkgs.sway}/bin/swaymsg "output * power off"'';
+        resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * power on"'';
+      }
+      {
+        timeout = 900;
+        command = "${pkgs.systemd}/bin/systemctl suspend";
+      }
+    ];
+    events.before-sleep = lib.getExe pkgs.hyprlock;
+  };
+
   wayland.windowManager.sway = {
     enable = true;
     package = null;
@@ -218,6 +239,7 @@ in
         "${modifier}+f" = "exec ${lib.getExe pkgs.brave}";
         "${modifier}+a" = "exec ${lib.getExe pkgs.fuzzel}";
         "${modifier}+m" = "fullscreen toggle";
+        "${modifier}+Escape" = "exec ${lib.getExe pkgs.hyprlock}";
         "XF86MonBrightnessDown" = "exec light -U 10";
         "XF86MonBrightnessUp" = "exec light -A 10";
         "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +1%";
