@@ -12,11 +12,11 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
       nvim,
+      ...
     }:
     let
       system = "x86_64-linux";
@@ -33,7 +33,7 @@
           home-manager.nixosModules.home-manager
           {
             nixpkgs.overlays = [
-              (final: prev: {
+              (_: prev: {
                 unstable = import nixpkgs-unstable {
                   system = prev.stdenv.hostPlatform.system;
                   config.allowUnfree = true;

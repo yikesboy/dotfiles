@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   nvim,
   ...
@@ -56,6 +55,7 @@ in
     btop
     tmux
     file-roller
+    serie
 
     # GUI Apps
     brave
