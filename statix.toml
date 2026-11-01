@@ -1,0 +1,2 @@
+# dotted attribute assignments are fine, leave me alone statix linter
+disabled = ["repeated_keys"]
