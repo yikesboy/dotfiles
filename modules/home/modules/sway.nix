@@ -135,6 +135,8 @@ in
     };
   };
 
+  home.packages = [ pkgs.swaybg ];
+
   services.swayidle = {
     enable = true;
     systemdTargets = [ "sway-session.target" ];
@@ -187,6 +189,7 @@ in
 
       output."*" = {
         scale = "2";
+        bg = "/home/lukas/wallpapers/nixos.png fill";
       };
 
       bars = [
