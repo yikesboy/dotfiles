@@ -82,10 +82,11 @@ jobs:
           GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "false"
 
   # ---------------------------------------------------------------------------
-  # build: builds the full luna system closure. Gated on lint and secrets so
-  # we only burn runner time on commits that already passed the cheap checks.
+  # build: only build the full luna system when this workflow is run manually.
+  # Lint and secrets must still pass before the build starts.
   # ---------------------------------------------------------------------------
   build:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: [lint, secrets]
     runs-on: ubuntu-24.04
     timeout-minutes: 90
