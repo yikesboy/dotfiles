@@ -44,7 +44,7 @@
 
           check_color = palette.lock.check;
 
-          placeholder_text = ''<i><span foreground="#${palette.text}"> Password </span></i>'';
+          placeholder_text = "Password";
 
           hide_input = false;
           position = "0, -200";
