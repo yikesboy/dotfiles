@@ -307,7 +307,7 @@ in
       };
     };
 
-    # Alternate the split direction for newly created windows.
+    # fibonacci splitting
     extraConfig = ''
       for_window [all] split toggle
     '';
