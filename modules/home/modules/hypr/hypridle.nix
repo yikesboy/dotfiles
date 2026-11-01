@@ -1,8 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let cfg = config.my.hyprland;
 in {
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ brightnessctl hyprlock ];
     services.hypridle = {
       enable = true;
 
