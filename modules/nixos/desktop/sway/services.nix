@@ -33,8 +33,9 @@
       after = [ "sway-session.target" ];
 
       serviceConfig = {
-        ExecStart = "${pkgs.mako}/bin/mako";
+        ExecStart = "${pkgs.mako}/bin/mako --default-timeout 10000 --ignore-timeout 1";
         Restart = "on-failure";
+        RestartSec = "2s";
       };
     };
   };
