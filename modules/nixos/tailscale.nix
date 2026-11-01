@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   services.tailscale = {
     enable = true;
     extraSetFlags = [ "--ssh=true" ];
