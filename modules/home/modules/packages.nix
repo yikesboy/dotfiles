@@ -90,7 +90,6 @@ in
     nwg-displays
     brightnessctl
     #xdg-desktop-portal-hyprland
-    upower
     bibata-cursors
     networkmanagerapplet
     unstable.noctalia-shell
