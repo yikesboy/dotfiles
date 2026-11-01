@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  # Only run on main for pushes; PRs are covered by pull_request below,
+  # Only run on master for pushes; PRs are covered by pull_request below,
   # so a PR push no longer triggers two runs.
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   workflow_dispatch:
 
@@ -12,10 +12,10 @@ permissions:
   contents: read
 
 # Cancel superseded runs on the same ref so only the latest push is tested.
-# Never cancel on main, so a quick second commit can't kill the first one's build.
+# Never cancel on master, so a quick second commit can't kill the first one's run.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   # ---------------------------------------------------------------------------
