@@ -1,7 +1,7 @@
-{...}:
+{ ... }:
 {
   services.pipewire = {
-     enable = true;
-     pulse.enable = true;
+    enable = true;
+    pulse.enable = true;
   };
 }

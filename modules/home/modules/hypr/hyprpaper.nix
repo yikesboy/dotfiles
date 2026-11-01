@@ -1,6 +1,8 @@
 { config, lib, ... }:
-let cfg = config.my.hyprland;
-in {
+let
+  cfg = config.my.hyprland;
+in
+{
   config = lib.mkIf cfg.enable {
     home.packages = [ config.services.hyprpaper.package ];
 

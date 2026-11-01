@@ -4,7 +4,8 @@ let
   hyprConfigDir = "${config.home.homeDirectory}/.config/hypr";
   monitorsConf = "${hyprConfigDir}/monitors.conf";
   monitorsOverrideConf = "${hyprConfigDir}/monitors-override.conf";
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     home.activation.hyprMonitorOverrides = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       if [ ! -e ${lib.escapeShellArg monitorsConf} ]; then
