@@ -138,15 +138,6 @@ in
 
     configFile = {
       "mimeapps.list".force = true;
-
-      "ghostty/config" = {
-        force = true;
-        text = ''
-          theme = Catppuccin Mocha
-          background-opacity = 0.8
-          background-blur = true
-        '';
-      };
     };
 
     dataFile."applications/mimeapps.list".force = true;

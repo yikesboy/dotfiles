@@ -32,14 +32,14 @@ in
     isort
     ruff
     nodejs_24
-    nodePackages.typescript-language-server
+    #typescript-language-server
     pyright
     typst
     javaPackages.compiler.temurin-bin.jre-21
     jdt-language-server
     typescript
     nil
-    nixfmt-classic
+    nixfmt
     alejandra
 
     # Unix & CLI Utilities
@@ -83,16 +83,23 @@ in
     # Hyprland
     wofi
     waybar
-    hypridle
-    hyprlock
-    hyprshot
-    hyprpaper
+    #hypridle
+    #hyprlock
+    #hyprshot
+    #hyprpaper
     nwg-displays
     brightnessctl
-    xdg-desktop-portal-hyprland
-    upower
+    #xdg-desktop-portal-hyprland
     bibata-cursors
     networkmanagerapplet
     unstable.noctalia-shell
+
+    # user packages - do not forget:
+    tree
+    fastfetch
+    vesktop
+    pkgs.unstable.opencode
+    pkgs.unstable.pi-coding-agent
+    pkgs.unstable.zellij
   ];
 }

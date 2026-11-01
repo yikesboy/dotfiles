@@ -2,9 +2,9 @@
   description = "NixOS + Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nvim.url = "github:yikesboy/nvim";
@@ -22,11 +22,13 @@
       system = "x86_64-linux";
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+
+      nixosConfigurations.luna = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit nixpkgs-unstable; };
         modules = [
-          ./nixos/configuration.nix
+          ./hosts/luna
 
           home-manager.nixosModules.home-manager
           {
@@ -46,7 +48,7 @@
             home-manager.extraSpecialArgs = {
               inherit nixpkgs-unstable nvim;
             };
-            home-manager.users.lukas = import ./home/home.nix;
+            home-manager.users.lukas = import ./modules/home/home.nix;
           }
         ];
       };

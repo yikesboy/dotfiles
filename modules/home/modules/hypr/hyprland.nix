@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  palette,
   ...
 }:
 let
@@ -10,28 +11,23 @@ in
 {
   options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
   config = lib.mkIf cfg.enable {
+    # keep hyprland's background services out of sway.
+    wayland.systemd.target = "hyprland-session.target";
+
     home.packages = with pkgs; [
-      hyprland
-      ghostty
-      wofi
-      brave
-      yazi
-      hyprpaper
-      hyprlock
       hyprshot
-      nwg-displays
-      waybar
-      networkmanagerapplet
-      gnome-keyring
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-      brightnessctl
       playerctl
-      wireplumber
     ];
 
     wayland.windowManager.hyprland = {
       enable = true;
+      package = null;
+      configType = "hyprlang";
+      portalPackage = null;
+
+      # start session services with hyprland and stop them when it exits.
+      systemd.enable = true;
+      settings.exec-shutdown = "systemctl --user stop hyprland-session.target";
 
       settings = {
         "$mainMod" = "SUPER";
@@ -47,22 +43,18 @@ in
         ];
 
         exec-once = [
+          "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
           "nm-applet &"
-          "gnome-keyring-daemon --start --components=pkcs11,secrets,ssh"
-          # "waybar"
           "noctalia-shell"
-          "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "xdg-desktop-portal-hyprland"
-          "xdg-desktop-portal-gtk"
+          # "waybar"
         ];
 
         general = {
           gaps_in = 0;
           gaps_out = 2;
           border_size = 2;
-          "col.active_border" = "rgba(ffffffff)";
-          "col.inactive_border" = "rgba(595959aa)";
+          "col.active_border" = "rgba(${palette.white}ff)";
+          "col.inactive_border" = "rgba(${palette.inactiveBorder}aa)";
           allow_tearing = false;
           layout = "dwindle";
           resize_on_border = true;
@@ -78,7 +70,7 @@ in
             enabled = true;
             range = 4;
             render_power = 3;
-            color = "rgba(1a1a1aee)";
+            color = "rgba(${palette.shadow}ee)";
           };
 
           blur = {
@@ -94,7 +86,6 @@ in
         };
 
         dwindle = {
-          pseudotile = true;
           preserve_split = true;
         };
 
@@ -104,7 +95,7 @@ in
 
         misc = {
           force_default_wallpaper = 0;
-          new_window_takes_over_fullscreen = 2;
+          on_focus_under_fullscreen = 2;
         };
 
         input = {
@@ -197,9 +188,10 @@ in
           ", XF86AudioPrev, exec, playerctl previous"
         ];
 
-        windowrulev2 = [
-          "suppressevent maximize, class:.*"
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+        windowrule = [
+          "match:class .*, suppress_event maximize"
+
+          "match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false, no_focus true"
         ];
 
         xwayland = {
