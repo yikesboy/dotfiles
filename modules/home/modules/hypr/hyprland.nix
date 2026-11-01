@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  palette,
   ...
 }:
 let
@@ -10,35 +11,23 @@ in
 {
   options.my.hyprland.enable = lib.mkEnableOption "Hyprland";
   config = lib.mkIf cfg.enable {
+    # keep hyprland's background services out of sway.
+    wayland.systemd.target = "hyprland-session.target";
+
     home.packages = with pkgs; [
-      ghostty
-      wofi
-      brave
-      yazi
-      hyprpaper
-      hyprlock
       hyprshot
-      nwg-displays
-      waybar
-      networkmanagerapplet
-      brightnessctl
       playerctl
-      wireplumber
     ];
 
     wayland.windowManager.hyprland = {
       enable = true;
       package = null;
+      configType = "hyprlang";
       portalPackage = null;
 
-      systemd = {
-        enable = true;
-        extraCommands = [
-          "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
-          "systemctl --user stop hyprland-session.target"
-          "systemctl --user start hyprland-session.target"
-        ];
-      };
+      # start session services with hyprland and stop them when it exits.
+      systemd.enable = true;
+      settings.exec-shutdown = "systemctl --user stop hyprland-session.target";
 
       settings = {
         "$mainMod" = "SUPER";
@@ -54,6 +43,7 @@ in
         ];
 
         exec-once = [
+          "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
           "nm-applet &"
           "noctalia-shell"
           # "waybar"
@@ -63,8 +53,8 @@ in
           gaps_in = 0;
           gaps_out = 2;
           border_size = 2;
-          "col.active_border" = "rgba(ffffffff)";
-          "col.inactive_border" = "rgba(595959aa)";
+          "col.active_border" = "rgba(${palette.white}ff)";
+          "col.inactive_border" = "rgba(${palette.inactiveBorder}aa)";
           allow_tearing = false;
           layout = "dwindle";
           resize_on_border = true;
@@ -80,7 +70,7 @@ in
             enabled = true;
             range = 4;
             render_power = 3;
-            color = "rgba(1a1a1aee)";
+            color = "rgba(${palette.shadow}ee)";
           };
 
           blur = {
