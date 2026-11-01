@@ -1,13 +1,18 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   myAliases = {
     cat = "bat";
     gud = "lazygit";
     c = "clear";
     lzd = "lazydocker";
+    l = "eza -l";
   };
 in
 {
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+  ];
+
   programs.nushell = {
     enable = true;
 
@@ -19,6 +24,7 @@ in
 
   programs.zsh = {
     enable = true;
+    dotDir = config.home.homeDirectory;
 
     oh-my-zsh = {
       enable = true;
@@ -59,7 +65,7 @@ in
 
     settings = {
       add_newline = false;
-      format = "$username$hostname$directory$git_branch$custom$character";
+      format = "$username$hostname$directory$git_branch$custom$character ";
 
       username = {
         show_always = true;
