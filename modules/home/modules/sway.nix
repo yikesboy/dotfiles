@@ -271,6 +271,11 @@ in
         titlebar = false;
       };
 
+      floating = {
+        border = 2;
+        titlebar = false;
+      };
+
       colors = {
         background = "#${palette.base}";
         focused = {
@@ -307,9 +312,16 @@ in
       };
     };
 
-    # fibonacci splitting
     extraConfig = ''
+      # Fibonacci splitting.
       for_window [all] split toggle
+
+      # Keep battery warnings centered and focused without compositor decorations.
+      for_window [title="^Battery (Low|Critical)$"] floating enable
+      for_window [title="^Battery (Low|Critical)$"] border none
+      for_window [title="^Battery (Low|Critical)$"] resize set width 460 px height 220 px
+      for_window [title="^Battery (Low|Critical)$"] move position center
+      for_window [title="^Battery (Low|Critical)$"] focus
     '';
   };
 }
