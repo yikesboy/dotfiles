@@ -6,6 +6,7 @@
     #./modules/desktop.nix
     ./modules/xdg.nix
     ./modules/sway.nix
+    ./modules/battery-warning.nix
     ./modules/mako.nix
     ./modules/hyprlock.nix
     ./modules/hypr/hyprland.nix
