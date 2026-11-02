@@ -8,6 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nvim.url = "github:yikesboy/nvim";
+    battery-warning.url = "github:yikesboy/battery-warning";
   };
 
   outputs =
@@ -16,6 +17,7 @@
       nixpkgs-unstable,
       home-manager,
       nvim,
+      battery-warning,
       ...
     }:
     let
@@ -46,7 +48,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
-              inherit nixpkgs-unstable nvim;
+              inherit nixpkgs-unstable nvim battery-warning;
             };
             home-manager.users.lukas = import ./modules/home/home.nix;
           }
