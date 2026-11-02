@@ -97,7 +97,7 @@ in
     # user packages - do not forget:
     tree
     fastfetch
-    vesktop
+    (pkgs.unstable.vesktop.override { withSystemVencord = true; })
     pkgs.unstable.opencode
     pkgs.unstable.pi-coding-agent
     pkgs.unstable.zellij
