@@ -135,7 +135,12 @@ in
     };
   };
 
-  home.packages = [ pkgs.swaybg ];
+  home.packages = [
+    pkgs.swaybg
+    pkgs.grim
+    pkgs.slurp
+    pkgs.wl-clipboard
+  ];
 
   services.swayidle = {
     enable = true;
@@ -181,7 +186,7 @@ in
     config = {
       inherit modifier;
 
-      terminal = lib.getExe pkgs.ghostty;
+      terminal = lib.getExe config.programs.ghostty.package;
 
       input."type:keyboard" = {
         xkb_layout = "de";
@@ -189,7 +194,7 @@ in
 
       output."*" = {
         scale = "2";
-        bg = "/home/lukas/wallpapers/nixos.png fill";
+        bg = "/home/lukas/wallpapers/wanderer.jpg fill";
       };
 
       bars = [
@@ -254,10 +259,14 @@ in
 
       keybindings = lib.mkOptionDefault {
         "${modifier}+q" = "kill";
-        "${modifier}+t" = "exec ${lib.getExe pkgs.ghostty}";
+        "${modifier}+t" = "exec ${lib.getExe config.programs.ghostty.package}";
         "${modifier}+f" = "exec ${lib.getExe pkgs.brave}";
         "${modifier}+a" = "exec ${lib.getExe pkgs.fuzzel}";
         "${modifier}+m" = "fullscreen toggle";
+        "${modifier}+y" = "floating toggle";
+        "${modifier}+Shift+s" =
+          ''exec sh -c 'region="$(${lib.getExe pkgs.slurp})" && ${lib.getExe pkgs.grim} -g "$region" - | ${pkgs.wl-clipboard}/bin/wl-copy --type image/png' '';
+        "${modifier}+Shift+space" = null;
         "${modifier}+Escape" = "exec ${lib.getExe pkgs.hyprlock}";
         "XF86MonBrightnessDown" = "exec ${lib.getExe pkgs.brightnessctl} set 10%-";
         "XF86MonBrightnessUp" = "exec ${lib.getExe pkgs.brightnessctl} set 10%+";
@@ -313,6 +322,8 @@ in
     };
 
     extraConfig = ''
+      include ~/.config/sway/outputs
+
       # Fibonacci splitting.
       for_window [all] split toggle
 
