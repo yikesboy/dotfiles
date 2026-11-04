@@ -1,4 +1,4 @@
-{ palette, ... }:
+{ palette, pkgs, ... }:
 {
   programs.hyprlock = {
     enable = true;
@@ -7,7 +7,7 @@
       background = [
         {
           monitor = "";
-          path = "/home/lukas/wallpapers/nous-2.jpg";
+          path = "/home/lukas/wallpapers/wanderer.jpg";
           blur_passes = 2;
           contrast = 1;
           brightness = 0.5;
@@ -56,7 +56,7 @@
       label = [
         {
           monitor = "";
-          text = ''cmd[update:1000] echo "$(date +"%A, %B %d")"'';
+          text = ''cmd[update:1000] ${pkgs.coreutils}/bin/date +"%A, %B %d"'';
           color = palette.lock.text;
           font_size = 35;
           font_family = "JetBrains Mono";
@@ -66,7 +66,7 @@
         }
         {
           monitor = "";
-          text = ''cmd[update:1000] echo "$(date +"%-I:%M")"'';
+          text = ''cmd[update:1000] ${pkgs.coreutils}/bin/date +"%-I:%M"'';
           color = palette.lock.text;
           font_size = 120;
           font_family = "JetBrains Mono Extrabold";
