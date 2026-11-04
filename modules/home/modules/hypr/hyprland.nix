@@ -31,7 +31,7 @@ in
 
       settings = {
         "$mainMod" = "SUPER";
-        "$terminal" = lib.getExe pkgs.ghostty;
+        "$terminal" = lib.getExe config.programs.ghostty.package;
         "$fileManager" = lib.getExe pkgs.nautilus;
         "$menu" = "wofi --show drun";
         "$webbrowser" = lib.getExe pkgs.brave;
